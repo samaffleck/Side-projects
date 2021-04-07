@@ -1,3 +1,5 @@
+# This simulation uses the bragg-williams model to calculate the entropy and partial derivative of molar enthalpy w/ respect to the volume fraction of Li ions (gold).
+
 import random
 import pygame
 import math
@@ -104,8 +106,8 @@ def main():
     n = 20
     p = 0.0  # Start probability of a Li ion
     t = 0
-    dt = 1
-    dp = 0.05
+    dt = 0.05
+    dp = 0.02
     entropy_list = []
 
     matrix = [[[Node(z, y, x, p) for z in range(n)] for y in range(n)] for x in range(n)]
@@ -130,11 +132,24 @@ def main():
         pygame.display.update()
         time.sleep(dt)
 
-    print(entropy_list)
-    plt.scatter(*zip(*entropy_list))
-    plt.title('Entropy plot')
-    plt.xlabel('Volume fraction of Li atoms')
-    plt.ylabel('Entropy')
+    i = 0
+    gradients = []
+    for x, s in entropy_list:
+        if i == 0:
+            x_old = x
+            s_old = s
+        else:
+            m = (s-s_old)/(x-x_old)
+            gradients.append((x, m))
+            x_old = x
+            s_old = s
+        i += 1
+
+    fig, axs = plt.subplots(2)
+    axs[0].scatter(*zip(*gradients))
+    axs[0].set_title('Voltage profile')
+    axs[1].scatter(*zip(*entropy_list))
+    axs[1].set_title('Entropy plot')
     plt.show()
 
 
