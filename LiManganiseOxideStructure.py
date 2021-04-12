@@ -20,7 +20,8 @@ unit_cell = np.array([[0.0, 0.0, 0.0],  # 1. Origin
                       [0.25, 0.75, 0.75],  # 7
                       [0.75, 0.25, 0.75]])*lattice_scalar  # 8
 
-length_of_system = 10  # This is the length (s) of the side. So for a cube there are s^3 cells
+length_of_system = 5  # This is the length (s) of the side. So for a cube there are s^3 cells
+# NOTE: Matplot lib strugles to plot the points when s > 5. 
 
 grid = []
 for z in range(length_of_system):
